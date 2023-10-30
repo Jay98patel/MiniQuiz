@@ -1,1 +1,18 @@
-<div class="h-100">works</div>
+<div class="h-100">
+  <div>
+    <h3>
+      {{ quizData.question }}
+    </h3>
+
+    <div>
+      <select class="form-select" multiple>
+        <option [value]="answer.id" *ngFor="let answer of quizData.options">
+          {{ answer.name }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <button type="button" class="btn btn-success">Previous</button>
+  <button type="button" class="btn btn-warning">Next</button>
+</div>

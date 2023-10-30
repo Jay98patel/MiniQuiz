@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { Quiz } from '../models/quiz.iterface';
-import { sharedData } from '../sharedData/data';
+import { sharedData } from '../utils/data';
 
 @Injectable({
   providedIn: 'root',
@@ -8,9 +9,15 @@ import { sharedData } from '../sharedData/data';
 export class SharedService {
   quizData: Quiz[];
 
-  constructor() {}
+  constructor() {
+    this.getData();
+  }
 
   getData() {
     this.quizData = sharedData.quizData;
+  }
+
+  getQuestionById(id: number): Observable<Quiz> {
+    return of(this.quizData.find((x: Quiz) => x.id == id) as Quiz);
   }
 }
