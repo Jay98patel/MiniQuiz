@@ -1,6 +1,9 @@
 import { Quiz } from '../models/quiz.iterface';
 
 class SharedData {
+  currentFormControl: string = 'answer1';
+  currentQuestionNumber: number = 1;
+  count: number = 0;
   quizData: Quiz[] = [
     {
       id: 1,

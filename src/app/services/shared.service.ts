@@ -20,4 +20,8 @@ export class SharedService {
   getQuestionById(id: number): Observable<Quiz> {
     return of(this.quizData.find((x: Quiz) => x.id == id) as Quiz);
   }
+
+  getAllCorrectAnswers() {
+    return this.quizData.map((x: Quiz) => x.answer);
+  }
 }

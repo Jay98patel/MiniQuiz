@@ -5,7 +5,7 @@ export interface Quiz {
   answer: keyValue;
 }
 
-interface keyValue {
+export interface keyValue {
   id: number;
   name: string;
 }
