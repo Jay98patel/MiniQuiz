@@ -4,8 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'quiz',
+    redirectTo: 'welcome',
     pathMatch: 'full',
+  },
+  {
+    path: 'welcome',
+    loadComponent: () =>
+      import('./standalones/welcome/welcome.component').then(
+        (m) => m.WelcomeComponent
+      ),
   },
   {
     path: 'quiz',
