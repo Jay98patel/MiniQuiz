@@ -8,6 +8,7 @@ class SharedData {
     correctAnswers: 0,
     totalQuestions: 0,
     wrongAnswers: 0,
+    usersAnswers: [{ id: 0, name: '' }],
   };
   quizData: Quiz[] = [
     {

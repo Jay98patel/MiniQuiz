@@ -4,3 +4,23 @@
   Wrong Answers :-
   {{ result.wrongAnswers }}
 </div>
+<table class="table w-100" *ngIf="detailedResult.length">
+  <thead>
+    <tr>
+      <th scope="col">Question Number</th>
+      <th scope="col">User's Answers</th>
+      <th scope="col">Correct Answers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let result of detailedResult; let i = index">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ result.usersAnswers.name }}</td>
+      <td>{{ result.correctedAnswers.name }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<button type="button" class="btn btn-danger" (click)="retakeTest()">
+  Retake
+</button>

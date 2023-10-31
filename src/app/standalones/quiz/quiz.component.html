@@ -2,11 +2,17 @@
   <div class="bg-white rounded shadow-sm p-4">
     <div>
       <!-- Question -->
-      <h3 class="mb-3">
-        {{ quizData.question }}
-      </h3>
+      <h3 class="mb-3">{{ currentQuestionNumber }}. {{ quizData.question }}</h3>
       <!-- End: Question -->
-
+      <div class="progress my-3">
+        <div
+          class="progress-bar bg-info"
+          role="progressbar"
+          [style.width.%]="progressBar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        ></div>
+      </div>
       <!-- Answer Options -->
       <form class="d-flex flex-column gap-3" [formGroup]="quizForm">
         <div class="options-wrapper" *ngFor="let answer of quizData.options">
@@ -14,9 +20,10 @@
             <input
               class="form-check-input"
               type="radio"
+              (change)="isValidationMessageShown = false"
               [id]="answer.id"
               [formControlName]="currentFormControl"
-              [value]="answer.id"
+              [value]="answer"
             />
             <label class="form-check-label" [for]="answer.id">
               {{ answer.name }}
@@ -28,6 +35,9 @@
     </div>
 
     <!-- Navigation Buttons -->
+    <small class="text-danger" *ngIf="isValidationMessageShown">
+      Please Select alteast one option
+    </small>
     <div class="d-flex align-items-center justify-content-between mt-5">
       <button
         type="button"
@@ -39,20 +49,16 @@
       </button>
       <button
         type="button"
-        class="btn btn-primary"
+        class="btn"
+        [ngClass]="{
+          'btn-primary': this.currentQuestionNumber !== this.totalQuestions,
+          'btn-success': this.currentQuestionNumber === this.totalQuestions
+        }"
         (click)="loadNextQuestion()"
       >
         {{
           this.currentQuestionNumber === this.totalQuestions ? "Submit" : "Next"
         }}
-      </button>
-      <button
-        type="button"
-        *ngIf="this.currentQuestionNumber === this.totalQuestions"
-        class="btn btn-danger"
-        (click)="resetQuiz()"
-      >
-        Reset
       </button>
     </div>
     <!-- End: Navigation Buttons -->

@@ -2,15 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
-  ReactiveFormsModule,
-  FormGroup,
-  Validators,
   FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { Quiz, Result, keyValue } from 'src/app/models/quiz.iterface';
-import { SharedService } from '../../services/shared.service';
-import { sharedData } from 'src/app/utils/data';
 import { Router } from '@angular/router';
+import { Quiz, Result, keyValue } from 'src/app/models/quiz.iterface';
+import { sharedData } from 'src/app/utils/data';
+import { SharedService } from '../../services/shared.service';
 @Component({
   selector: 'app-quiz',
   standalone: true,
@@ -26,13 +26,14 @@ export class QuizComponent implements OnInit {
   currentFormControl: string = sharedData.currentFormControl;
   correctAnswers: number = sharedData.count;
   wrongAnswers: number = sharedData.count;
+  progressBar: number = sharedData.count;
+  isValidationMessageShown: boolean = false;
   totalQuestions: number;
   quizForm: FormGroup;
 
   constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit() {
-    console.log('hi');
     this.quizForm = this.buildForm();
     this.getQuestion(this.currentQuestionNumber);
     this.getTotalQuizQuestions();
@@ -69,7 +70,14 @@ export class QuizComponent implements OnInit {
    * Loads the next question in the quiz.
    */
   async loadNextQuestion() {
+    const isFormValid = this.quizForm.controls[this.currentFormControl].valid;
+    if (!isFormValid) {
+      this.isValidationMessageShown = true;
+      return;
+    }
+    this.isValidationMessageShown = false;
     if (this.currentQuestionNumber !== this.totalQuestions) {
+      this.progressBar += 25;
       this.currentQuestionNumber++;
       this.currentFormControl = `answer${this.currentQuestionNumber}`;
       this.quizForm.addControl(
@@ -78,7 +86,6 @@ export class QuizComponent implements OnInit {
       );
       this.getQuestion(this.currentQuestionNumber);
     } else {
-      console.log('show result');
       await this.getResult();
       await this.router.navigate(['/result']);
     }
@@ -86,24 +93,30 @@ export class QuizComponent implements OnInit {
 
   /**
    * Retrieves the result of the quiz.
+   * -1 will come in the case when the user has not answered the question
    */
   async getResult() {
     const correctedAnswers: keyValue[] =
       this.dataServices.getAllCorrectAnswers();
     const formValue = this.quizForm.value;
     correctedAnswers.forEach((x: keyValue, i: number) => {
-      const userAnswer = formValue[`answer${i + 1}`];
+      const userAnswer = formValue[`answer${i + 1}`]?.id ?? -1;
       if (+x.id == userAnswer) {
         this.correctAnswers++;
       } else {
         this.wrongAnswers++;
       }
     });
-    const result: Result = {
+
+    let result: Result = {
       correctAnswers: this.correctAnswers,
       wrongAnswers: this.wrongAnswers,
       totalQuestions: this.totalQuestions,
+      usersAnswers: [],
     };
+    for (let i = 0; i < Object.keys(formValue).length; i++) {
+      result.usersAnswers.push(formValue[`answer${i + 1}`]);
+    }
     this.dataServices.storeResult(result);
   }
 
@@ -111,8 +124,10 @@ export class QuizComponent implements OnInit {
    * Loads the previous question.
    */
   loadPreviousQuestion() {
+    this.isValidationMessageShown = false;
     if (this.currentQuestionNumber !== 1) {
       this.currentQuestionNumber--;
+      this.progressBar -= 25;
       console.log(this.quizForm.value);
       this.currentFormControl = `answer${this.currentQuestionNumber}`;
       this.getQuestion(this.currentQuestionNumber);
