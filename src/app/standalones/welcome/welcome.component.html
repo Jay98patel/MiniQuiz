@@ -1,1 +1,22 @@
-<button type="button" class="btn btn-primary" [routerLink]="['/quiz']" >Take Quiz</button>
+<div
+    class="d-flex h-100">
+    <div
+        class="d-none d-lg-flex h-100 align-items-center justify-content-center flex-grow-1 p-3">
+        <figure class="hero-img-wrapper mb-0">
+            <img src="../../../assets/images/landing-img.svg" class="img-fluid"
+                alt="Quiz Image">
+        </figure>
+    </div>
+    <div
+        class="hero-content-section d-flex flex-column align-items-center justify-content-center flex-grow-1 p-3">
+        <h1 class="text-secondary">Mini Quiz</h1>
+        <h4 class="text-center">Test your knowledge, Stay updated</h4>
+        <p>Ready to go!</p>
+        <div class="mt-3">
+            <button type="button" class="btn btn-primary"
+                [routerLink]="['/quiz']">
+                Take Quiz
+            </button>
+        </div>
+    </div>
+</div>

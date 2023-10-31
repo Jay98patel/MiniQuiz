@@ -23,9 +23,9 @@ export class QuizComponent implements OnInit {
   public quizData: Quiz;
   currentQuestionNumber: number = sharedData.currentQuestionNumber;
   currentFormControl: string = sharedData.currentFormControl;
-  totalQuestions: number;
   correctAnswers: number = sharedData.count;
   wrongAnswers: number = sharedData.count;
+  totalQuestions: number;
   isResultShown: boolean;
   quizForm: FormGroup;
 

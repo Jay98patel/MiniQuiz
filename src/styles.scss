@@ -1,5 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
-html,body{
-    height: 100%;
-}
+// Josefin Sans Fonts
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;700&display=swap');
+
+// App Base Files
+@import 'assets/scss/base/';
+
+// Bootstrap Files
+@import 'assets/scss/vendors/bootstrap-base';
+@import 'assets/scss/vendors/bootstrap-components';
+
+// App Components Files
+@import 'assets/scss/components/';
