@@ -1,32 +1,35 @@
-<div class="container p-3 h-100">
-  <div class="bg-white rounded shadow-sm p-4">
+<div class="container d-flex flex-column justify-content-center d-lg-block align-items-center p-3 p-lg-4 h-100">
+  <div class="bg-white rounded shadow-sm p-4 w-100">
     <div>
-      <!-- Question -->
-      <h3 class="mb-3">{{ currentQuestionNumber }}. {{ quizData.question }}</h3>
-      <!-- End: Question -->
+      <!-- Progress Bar -->
       <div class="progress my-3">
         <div
-          class="progress-bar bg-info"
+          class="progress-bar bg-success"
           role="progressbar"
           [style.width.%]="progressBar"
           aria-valuemin="0"
-          aria-valuemax="100"
-        ></div>
+          aria-valuemax="100"></div>
       </div>
+      <!-- End: Progress Bar -->
+
+      <!-- Question -->
+      <h5 class="mb-3">{{ currentQuestionNumber }}. {{ quizData.question }}</h5>
+      <!-- End: Question -->
+
       <!-- Answer Options -->
       <form class="d-flex flex-column gap-3" [formGroup]="quizForm">
-        <div class="options-wrapper" *ngFor="let answer of quizData.options">
-          <div class="form-check">
+        <div class="options-wrapper"
+          *ngFor="let answer of quizData.options, let i = index">
+          <div class="form-check ps-0">
             <input
-              class="form-check-input"
+              class="form-check-input d-none"
               type="radio"
               (change)="isValidationMessageShown = false"
               [id]="answer.id"
               [formControlName]="currentFormControl"
-              [value]="answer"
-            />
+              [value]="answer" />
             <label class="form-check-label" [for]="answer.id">
-              {{ answer.name }}
+              {{i + 1}}. {{ answer.name }}
             </label>
           </div>
         </div>
@@ -35,32 +38,40 @@
     </div>
 
     <!-- Navigation Buttons -->
-    <small class="text-danger" *ngIf="isValidationMessageShown">
-      Please Select alteast one option
-    </small>
     <div class="d-flex align-items-center justify-content-between mt-5">
+      <!-- Previous Button -->
       <button
         type="button"
+        title="Previous"
         class="btn btn-outline-secondary"
         (click)="loadPreviousQuestion()"
-        [disabled]="this.currentQuestionNumber === 1"
-      >
+        [disabled]="this.currentQuestionNumber === 1">
         Previous
       </button>
+      <!-- End: Previous Button -->
+
+      <!-- Submit & Next Button -->
       <button
         type="button"
         class="btn"
+        [title]="this.currentQuestionNumber === this.totalQuestions ? 'Submit' : 'Next'"
         [ngClass]="{
-          'btn-primary': this.currentQuestionNumber !== this.totalQuestions,
-          'btn-success': this.currentQuestionNumber === this.totalQuestions
-        }"
-        (click)="loadNextQuestion()"
-      >
+        'btn-primary': this.currentQuestionNumber !== this.totalQuestions,
+        'btn-success': this.currentQuestionNumber === this.totalQuestions
+      }"
+        (click)="loadNextQuestion()">
         {{
-          this.currentQuestionNumber === this.totalQuestions ? "Submit" : "Next"
+        this.currentQuestionNumber === this.totalQuestions ? "Submit" : "Next"
         }}
       </button>
+      <!-- End: Submit & Next Button  -->
     </div>
     <!-- End: Navigation Buttons -->
   </div>
+  <!-- Alert -->
+  <div class="alert alert-danger mt-3" [@alertAnimation] role="alert"
+    *ngIf="isValidationMessageShown">
+    Please select alteast one option
+  </div>
+  <!-- End: Alert -->
 </div>

@@ -4,6 +4,10 @@ body {
     overflow: hidden;
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 // Hero page styles
 .hero-img-wrapper {
     max-width: $hero-img-size;
@@ -28,15 +32,7 @@ body {
         @media screen and (max-width: 991px) {
             display: none;
         }
-    } 
+    }
 }
 
 // End: Hero page styles
-
-// Quiz Page Styles
-.options-wrapper {
-    padding: 1rem;
-    background-color: rgba($color: $primary, $alpha: 0.05);
-    border: 1px solid $primary;
-    border-radius: $border-radius;
-}

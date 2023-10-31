@@ -1,26 +1,60 @@
-<div *ngIf="result">
-  Correct Answers are {{ result.correctAnswers }} out of
-  {{ result.totalQuestions }} questions<br />
-  Wrong Answers :-
-  {{ result.wrongAnswers }}
-</div>
-<table class="table w-100" *ngIf="detailedResult.length">
-  <thead>
-    <tr>
-      <th scope="col">Question Number</th>
-      <th scope="col">User's Answers</th>
-      <th scope="col">Correct Answers</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let result of detailedResult; let i = index">
-      <th scope="row">{{ i + 1 }}</th>
-      <td>{{ result.usersAnswers.name }}</td>
-      <td>{{ result.correctedAnswers.name }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="container d-flex d-lg-block align-items-center p-3 p-lg-4 h-100">
+  <div class="bg-white rounded shadow-sm p-4 w-100">
+    <div class="mb-4" *ngIf="result">
+      <div>
+        <span class="fw-bold">Correct Answer:</span>
+        <span class="text-success"> {{ result.correctAnswers }} </span> out of
+        {{ result.totalQuestions }} questions
+      </div>
+      <div>
+        <span class="fw-bold"> Wrong Answers :- </span>
+        <span class="text-danger"> {{ result.wrongAnswers }}</span>
+      </div>
+    </div>
+    <table class="table mb-0 w-100" *ngIf="detailedResult.length">
+      <thead>
+        <tr>
+          <th scope="col">Question Number</th>
+          <th scope="col">User's Answers</th>
+          <th scope="col">Correct Answers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let result of detailedResult; let i = index">
+          <tr>
+            <td
+              [ngClass]="{
+                'text-danger':
+                  result.usersAnswers.id !== result.correctedAnswers.id
+              }"
+            >
+              {{ i + 1 }}
+            </td>
+            <td
+              [ngClass]="{
+                'text-danger':
+                  result.usersAnswers.id !== result.correctedAnswers.id
+              }"
+            >
+              {{ result.usersAnswers.name }}
+            </td>
+            <td
+              [ngClass]="{
+                'text-danger':
+                  result.usersAnswers.id !== result.correctedAnswers.id
+              }"
+            >
+              {{ result.correctedAnswers.name }}
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
 
-<button type="button" class="btn btn-danger" (click)="retakeTest()">
-  Retake
-</button>
+    <div class="text-end mt-5">
+      <button type="button" class="btn btn-danger" (click)="retakeTest()">
+        Retake
+      </button>
+    </div>
+  </div>
+</div>

@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { QuizComponent } from './standalones/quiz/quiz.component';
 import { WelcomeComponent } from './standalones/welcome/welcome.component';
 import { ResultComponent } from './standalones/result/result.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,6 +17,7 @@ import { ResultComponent } from './standalones/result/result.component';
     WelcomeComponent,
     QuizComponent,
     ResultComponent,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

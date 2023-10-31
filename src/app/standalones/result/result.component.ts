@@ -44,6 +44,6 @@ export class ResultComponent implements OnInit {
   }
 
   retakeTest() {
-    this.router.navigate(['/quiz']);
+    this.router.navigate(['/welcome']);
   }
 }

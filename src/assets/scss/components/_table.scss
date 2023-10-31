@@ -1,0 +1,9 @@
+.table {
+    thead {
+        th {
+            background-color: $table-head-bg;
+            color: $white;
+            font-size: $font-size-sm;
+        }
+    }
+}

@@ -11,27 +11,38 @@ import { Router } from '@angular/router';
 import { Quiz, Result, keyValue } from 'src/app/models/quiz.iterface';
 import { sharedData } from 'src/app/utils/data';
 import { SharedService } from '../../services/shared.service';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+
 @Component({
   selector: 'app-quiz',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.scss'],
+  animations: [
+    trigger('alertAnimation', [
+      state('void', style({ transform: 'translateX(-100%)' })), // Initial state when the element is not in the DOM
+      state('*', style({ transform: 'translateX(0)' })), // Final state when the element is in the DOM
+      transition('void => *', animate('0.25s ease-in-out')), // Animation when the element enters
+      transition('* => void', animate('0.25s ease-in-out')), // Animation when the element leaves
+    ]),
+  ],
 })
 export class QuizComponent implements OnInit {
+  
   private dataServices = inject(SharedService);
 
   public quizData: Quiz;
-  currentQuestionNumber: number = sharedData.currentQuestionNumber;
-  currentFormControl: string = sharedData.currentFormControl;
-  correctAnswers: number = sharedData.count;
-  wrongAnswers: number = sharedData.count;
-  progressBar: number = sharedData.count;
-  isValidationMessageShown: boolean = false;
-  totalQuestions: number;
-  quizForm: FormGroup;
+  public currentQuestionNumber: number = sharedData.currentQuestionNumber;
+  public currentFormControl: string = sharedData.currentFormControl;
+  public correctAnswers: number = sharedData.count;
+  public wrongAnswers: number = sharedData.count;
+  public progressBar: number = sharedData.count;
+  public isValidationMessageShown: boolean = false;
+  public totalQuestions: number;
+  public quizForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.quizForm = this.buildForm();

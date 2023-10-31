@@ -2,7 +2,7 @@
 $primary: #1a78fe;
 $secondary: #262c5b;
 $white: #ffffff;
-$success: #22bb33;
+$success: #11987b;
 
 // Body Colors
 $body-bg: #f6f7fb;
@@ -10,3 +10,11 @@ $body-color: #546880;
 
 // Hero Page colors
 $hero-content-bg: $white;
+
+// Quiz Page colors
+$options-wrapper-bg: #9f9f9f;
+$options-wrapper-border-clr: $options-wrapper-bg;
+
+// Table
+$table-color: $body-color;
+$table-head-bg: $success;

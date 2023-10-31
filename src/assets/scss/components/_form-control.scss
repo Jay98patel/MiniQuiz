@@ -1,0 +1,22 @@
+.options-wrapper {
+    .form-check {
+        &-input {
+            &:checked {
+                &+.form-check-label {
+                    background-color: rgba($color: $primary, $alpha: 0.1);
+                    border-color: $primary;
+                }
+            }
+        }
+    }
+
+    .form-check-label {
+        display: block;
+        padding: 1rem;
+        background-color: rgba($color: $options-wrapper-bg, $alpha: 0.05);
+        border: 1px solid $options-wrapper-border-clr;
+        border-radius: $border-radius;
+        transition: 0.4s all;
+        cursor: pointer;
+    }
+}
