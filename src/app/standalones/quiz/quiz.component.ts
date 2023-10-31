@@ -7,9 +7,10 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { Quiz, keyValue } from 'src/app/models/quiz.iterface';
+import { Quiz, Result, keyValue } from 'src/app/models/quiz.iterface';
 import { SharedService } from '../../services/shared.service';
 import { sharedData } from 'src/app/utils/data';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-quiz',
   standalone: true,
@@ -26,10 +27,9 @@ export class QuizComponent implements OnInit {
   correctAnswers: number = sharedData.count;
   wrongAnswers: number = sharedData.count;
   totalQuestions: number;
-  isResultShown: boolean;
   quizForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit() {
     console.log('hi');
@@ -68,7 +68,7 @@ export class QuizComponent implements OnInit {
   /**
    * Loads the next question in the quiz.
    */
-  loadNextQuestion() {
+  async loadNextQuestion() {
     if (this.currentQuestionNumber !== this.totalQuestions) {
       this.currentQuestionNumber++;
       this.currentFormControl = `answer${this.currentQuestionNumber}`;
@@ -79,17 +79,17 @@ export class QuizComponent implements OnInit {
       this.getQuestion(this.currentQuestionNumber);
     } else {
       console.log('show result');
-      this.getResult();
+      await this.getResult();
+      await this.router.navigate(['/result']);
     }
   }
 
   /**
-   * Retrieves the result of the quiz and displays it.
+   * Retrieves the result of the quiz.
    */
-  getResult() {
+  async getResult() {
     const correctedAnswers: keyValue[] =
       this.dataServices.getAllCorrectAnswers();
-    console.log(this.quizForm.value);
     const formValue = this.quizForm.value;
     correctedAnswers.forEach((x: keyValue, i: number) => {
       const userAnswer = formValue[`answer${i + 1}`];
@@ -99,7 +99,12 @@ export class QuizComponent implements OnInit {
         this.wrongAnswers++;
       }
     });
-    this.isResultShown = true;
+    const result: Result = {
+      correctAnswers: this.correctAnswers,
+      wrongAnswers: this.wrongAnswers,
+      totalQuestions: this.totalQuestions,
+    };
+    this.dataServices.storeResult(result);
   }
 
   /**
@@ -123,7 +128,6 @@ export class QuizComponent implements OnInit {
     this.wrongAnswers = sharedData.count;
     this.currentQuestionNumber = sharedData.currentQuestionNumber;
     this.currentFormControl = sharedData.currentFormControl;
-    this.isResultShown = false;
     this.getQuestion(this.currentQuestionNumber);
   }
 }

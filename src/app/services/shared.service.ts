@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Quiz } from '../models/quiz.iterface';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
+import { Quiz, Result } from '../models/quiz.iterface';
 import { sharedData } from '../utils/data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SharedService {
+  result: BehaviorSubject<Result> = new BehaviorSubject<Result>(
+    sharedData.initialResult
+  );
   quizData: Quiz[];
 
   constructor() {
@@ -23,5 +26,13 @@ export class SharedService {
 
   getAllCorrectAnswers() {
     return this.quizData.map((x: Quiz) => x.answer);
+  }
+
+  storeResult(result: Result) {
+    this.result.next(result);
+  }
+
+  getResult(): Observable<Result> {
+    return this.result.asObservable();
   }
 }

@@ -1,9 +1,14 @@
-import { Quiz } from '../models/quiz.iterface';
+import { Quiz, Result } from '../models/quiz.iterface';
 
 class SharedData {
   currentFormControl: string = 'answer1';
   currentQuestionNumber: number = 1;
   count: number = 0;
+  initialResult: Result = {
+    correctAnswers: 0,
+    totalQuestions: 0,
+    wrongAnswers: 0,
+  };
   quizData: Quiz[] = [
     {
       id: 1,

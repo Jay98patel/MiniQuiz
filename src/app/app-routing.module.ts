@@ -19,6 +19,13 @@ const routes: Routes = [
     loadComponent: () =>
       import('./standalones/quiz/quiz.component').then((m) => m.QuizComponent),
   },
+  {
+    path: 'result',
+    loadComponent: () =>
+      import('./standalones/result/result.component').then(
+        (m) => m.ResultComponent
+      ),
+  },
 ];
 
 @NgModule({
