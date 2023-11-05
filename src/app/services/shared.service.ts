@@ -14,6 +14,7 @@ export class SharedService {
 
   constructor() {
     this.getData();
+    //ha
   }
 
   getData() {
